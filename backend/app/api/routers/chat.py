@@ -33,14 +33,15 @@ async def chat(
         messages = data.get_history_messages()
 
         doc_ids = data.get_chat_document_ids()
-        filters = generate_filters(doc_ids)
+        # filters = generate_filters(doc_ids)
         params = data.data or {}
         logger.info(
-            f"Creating chat engine with filters: {str(filters)}",
+            # f"Creating chat engine with filters: {str(filters)}",
+            f"Creating chat engine with No filters",
         )
         event_handler = EventCallbackHandler()
         chat_engine = get_chat_engine(
-            filters=filters, params=params, event_handlers=[event_handler]
+            filters=None, params=params, event_handlers=[event_handler]
         )
         response = await chat_engine.astream_chat(last_message_content, messages)
         process_response_nodes(response.source_nodes, background_tasks)
@@ -63,13 +64,14 @@ async def chat_request(
     messages = data.get_history_messages()
 
     doc_ids = data.get_chat_document_ids()
-    filters = generate_filters(doc_ids)
+    # filters = generate_filters(doc_ids)
     params = data.data or {}
     logger.info(
-        f"Creating chat engine with filters: {str(filters)}",
+        # f"Creating chat engine with filters: {str(filters)}",
+            f"Creating chat engine with No filters",
     )
 
-    chat_engine = get_chat_engine(filters=filters, params=params)
+    chat_engine = get_chat_engine(filters=None, params=params)
 
     response = await chat_engine.achat(last_message_content, messages)
     return Result(
